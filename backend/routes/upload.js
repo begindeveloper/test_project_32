@@ -1,27 +1,27 @@
-// this file contains API endpoints for interacting with the 'photo' collection
-// in the database.
 const express = require('express');
 const router = express.Router();
 
-const upload = process.env.ORG_ID;
+// Importing the upload model from the correct path
+const { upload } = require("../models/models");
 
-// Middleware for authorization. For API calls that require authorization, this middleware checks if the header of API calls have a valid security token. If no security token or invalid security token, then the API call is not made.
-const authMiddleWare = require("../auth/authMiddleWare");
+// Middleware for authorization
+const authMiddleware = require("../auth/authMiddleware");
 
-const { upload, clients} = require(".../models/models")
+router.get('/', authMiddleware, async (req, res, next) => {
+    try {
+        // Use findOne instead of find when searching for a single document by ID
+        const data = await upload.findOne({ _id: '656d271e94fb5530a0f6331d' });
 
-
-router.get('/', (req, res) => {
-    upload
-    .find({_id: '656d271e94fb5530a0f6331d'}), (error, data) => {
-        if (error) {
-            return next(error);
-        } else if (!data) {
-            res.status(400).send('Photo not found');
+        if (!data) {
+            res.status(404).send('Photo not found');
         } else {
-            res.json(data.name);
+            // Assuming 'name' is a field in the 'upload' document
+            res.json({ name: data.name });
         }
+    } catch (error) {
+        next(error);
     }
-    });
-    
-module.exports = router
+});
+
+module.exports = router;
+

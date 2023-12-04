@@ -1,9 +1,9 @@
 // This file contains the data models of the collections in the MongoDB database
-
+ 
 //Import functionalities
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+ 
 // collection for org
 const orgDataSchema = new Schema(
   {
@@ -20,7 +20,7 @@ const orgDataSchema = new Schema(
     collection: 'org'
   }
 );
-
+ 
 // collection for app users
 const userDataSchema = new Schema(
   {
@@ -49,7 +49,7 @@ const userDataSchema = new Schema(
     collection: 'users'
   }
 );
-
+ 
 // collection for clients
 const clientDataSchema = new Schema(
   {
@@ -108,7 +108,7 @@ const clientDataSchema = new Schema(
     collection: 'clients'
   }
 );
-
+ 
 // collection for events
 const eventDataSchema = new Schema(
   {
@@ -165,7 +165,7 @@ const eventDataSchema = new Schema(
     collection: 'events'
   }
 );
-
+ 
 // collection for services
 const serviceDataSchema = new Schema(
   {
@@ -187,18 +187,45 @@ const serviceDataSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'org'
     }
-  },
-  {
+  },{
     collection: 'services'
-  }
+  },
 );
 
+// Collection for photo
+const uploadSchema = new Schema(
+  {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: () => new mongoose.Types.ObjectId()
+  },
+  name: {
+      type: String,
+      required: true
+  },
+  description: {
+      type: String
+  },
+  status: {
+      type: String
+  },
+  org: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'org'
+  }
+}, {
+  collection: 'upload'
+});
+ 
+ 
 // create models from mongoose schemas
 const clients = mongoose.model('clients', clientDataSchema);
 const users = mongoose.model('users', userDataSchema);
 const orgs = mongoose.model('org', orgDataSchema);
+const upload = mongoose.model('upload', uploadSchema);
 const events = mongoose.model('events', eventDataSchema);
 const services = mongoose.model('services', serviceDataSchema);
-
+ 
 // package the models in an object to export
-module.exports = { clients, orgs, events, users, services };
+module.exports = { clients, orgs, events, users, upload, services };
+ 
