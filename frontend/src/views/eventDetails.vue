@@ -279,20 +279,23 @@ export default {
       }
     }
   },
-    //Update eventDetails  pages to require only 1 request to the database //https://router.vuejs.org/guide/essentials/dynamic-matching.html
-    async mounted() {
+  async mounted() {
+    // when component is mounted, data is loaded
     try {
-      const eventData = await getEventData(this.$route.params.id);
-      this.event = eventData.event;
-      this.clients = eventData.clients;
-      this.services = eventData.services;
-      this.event.date = new Date(this.event.date).toISOString().substring(0, 10);
- 
+      const [eventResponse, clientsResponse, servicesResponse] = await Promise.all([
+        getEventById(this.$route.params.id),
+        getEventAttendees(this.$route.params.id),
+        getServices(),
+      ]);
+      eventResponse.date = new Date(eventResponse.date).toISOString().substring(0, 10);
+      this.event = eventResponse;
+      this.clients = clientsResponse;
+      this.services = servicesResponse;
+     // this.inactiveServices = servicesResponse.filter(item => item.status === "Inactive")
     } catch (error) {
-      toast.error('Error loading data', error);
+      toast.error('error loading data', error)
     }
   },
-
   methods: {
     // method called when user attempts to update the event -> asks for confirmation
     async submitEventUpdate() {

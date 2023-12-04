@@ -13,8 +13,8 @@ export const useLoggedInUserStore = defineStore({
   state: () => {
     return {
       name: "",
-      role: "", //change it back ""
-      isLoggedIn: false //change it back to false
+      role: "",
+      isLoggedIn: false
     }
   },
   actions: {

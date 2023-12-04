@@ -341,7 +341,7 @@ export default {
       },
     };
   },
-  //Update ClientDetails  pages to require only 1 request to the database //https://router.vuejs.org/guide/essentials/dynamic-matching.html
+  ///////Update ClientDetails  pages to require only 1 request to the database //https://router.vuejs.org/guide/essentials/dynamic-matching.html
   async mounted() {
     try {
       const [clientResponse, clientEventsResponse, nonClientEventsResponse] = await Promise.all([
@@ -356,6 +356,7 @@ export default {
       toast.error('error loading data:', error)
     }
   },
+
   methods: {
     // method called to format the event date
     formatDate(date) {
@@ -436,6 +437,7 @@ export default {
         toast.error(error)
       }
     },
+
 
     // method called when user attempts to delete client
     async submitDeleteClient() {
